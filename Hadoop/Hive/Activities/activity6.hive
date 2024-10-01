@@ -1,0 +1,21 @@
+Drop table employee;
+
+Create table employee(id INT, name String, dept String, yoj INT, salary INT)
+ROW format delimited
+fields terminated by ','
+tblproperties("skip.header.line.count"="1");
+
+Load Data Local INPATH '/root/empData.csv' into table employee;
+
+Insert overwrite directory 'hdfs:///user/bhuvaneshwari/HiveResult1'
+row format Delimited fields terminated by ','
+select id, name from employee;
+
+Insert overwrite local directory '/root/HiveResult2'
+row format Delimited fields terminated by ','
+select * from employee where salary>30000;
+
+Insert overwrite local directory '/root/HiveResult3'
+row format delimited fields terminated by ','
+select count(*) from employee;
+  
